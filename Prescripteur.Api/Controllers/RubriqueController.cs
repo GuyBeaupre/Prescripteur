@@ -14,7 +14,7 @@ namespace Prescripteur.Api.Controllers
             return new List<Rubrique>()
             {
                 new() {Id = 1, Libelle = "Une rubrique" },
-                new() {Id = 2, Libelle = "Deuxième rubrique"} /*test pour commit*\
+                new() {Id = 2, Libelle = "Deuxième rubrique"} /*test pour commit*\ 
             };
         }
     }
