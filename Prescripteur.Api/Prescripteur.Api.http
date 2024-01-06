@@ -1,0 +1,6 @@
+@Prescripteur.Api_HostAddress = http://localhost:5183
+
+GET {{Prescripteur.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

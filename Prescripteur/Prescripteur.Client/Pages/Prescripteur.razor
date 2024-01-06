@@ -1,0 +1,195 @@
+﻿@page "/Prescripteur"
+<h3>Prescripteur</h3>
+
+@* <TelerikButton OnClick="@SayHelloHandler" ThemeColor="primary">Say Hello</TelerikButton>
+
+<br />
+
+@helloString
+
+@code {
+    MarkupString helloString;
+
+    void SayHelloHandler()
+    {
+        string msg = string.Format("Hello from <strong>Telerik Blazor</strong> at {0}.<br /> Now you can use C# to write front-end!", DateTime.Now);
+        helloString = new MarkupString(msg);
+    }
+}* *@
+
+<TelerikAutoComplete @ref="@AutoCompleteRef"
+                     Data="@Suggestions"
+                     @bind-Value="@AutoCompleteValue"
+                     Width="300px" />
+
+<TelerikButton OnClick="@OpenPopup">Open Popup</TelerikButton>
+
+@code {
+    private TelerikAutoComplete<string> AutoCompleteRef { get; set; }
+
+    private string AutoCompleteValue { get; set; }
+
+    private List<string> Suggestions { get; set; } = new List<string> { "first", "second", "third" };
+
+    private void OpenPopup()
+    {
+        AutoCompleteRef.Open();
+
+        AutoCompleteRef.Refresh(); 
+    }
+}
+
+<TelerikTabStrip>
+    <TabStripTab Title="Favoris">
+        First tab content.
+    </TabStripTab>
+    <TabStripTab Title="Établissement">
+        <div>
+            <table>
+                <tr>
+                    <th>
+                        Selected value: @selectedValue
+                        <br />
+
+                        <TelerikDropDownList Data="@myDdlData" TextField="MyTextField" ValueField="MyValueField" @bind-Value="selectedValue">
+                        </TelerikDropDownList>
+
+                        @code {
+                                //in a real case, the model is usually in a separate file
+                                //the model type and value field type must be provided to the dropdpownlist
+                                public class MyDdlModel
+                                {
+                                    public int MyValueField { get; set; }
+                                    public string MyTextField { get; set; }
+                                }
+
+                                int selectedValue { get; set; } = 3;
+
+                                IEnumerable<MyDdlModel> myDdlData = Enumerable.Range(1, 20).Select(x => new MyDdlModel { MyTextField = "item " + x, MyValueField = x });
+                        }
+                    </th>
+
+                    <th>
+                        Selected value: @selectedValue
+                        <br />
+
+                        <TelerikDropDownList Data="@myDdlData2" TextField="MyTextField" ValueField="MyValueField" @bind-Value="selectedValue">
+                        </TelerikDropDownList>
+
+                        @code {
+                            //in a real case, the model is usually in a separate file
+                            //the model type and value field type must be provided to the dropdpownlist
+                            public class MyDdlModel2
+                            {
+                                public int MyValueField { get; set; }
+                                public string MyTextField { get; set; }
+                            }
+
+                            int selectedValue2 { get; set; } = 3;
+
+                            IEnumerable<MyDdlModel2> myDdlData2 = Enumerable.Range(1, 20).Select(x => new MyDdlModel2 { MyTextField = "item " + x, MyValueField = x });
+                                            }
+                    </th>
+                </tr>
+            </table>
+            
+        </div>
+        <br/>
+
+        <div>
+            @* Provide a flat collection of models to the PanelBar *@
+
+            <TelerikPanelBar Data="@Items">
+            </TelerikPanelBar>
+
+
+            @code {
+        public List<PanelBarItem> Items { get; set; }
+
+        public class PanelBarItem
+        {
+            public string Text { get; set; }
+            public bool Disabled { get; set; }
+            public string Url { get; set; }
+            public List<PanelBarItem> Items { get; set; }
+        }
+
+        protected override void OnInitialized()
+        {
+            Items = GenerateData();
+
+            base.OnInitialized();
+        }
+
+        private List<PanelBarItem> GenerateData()
+        {
+            List<PanelBarItem> collection = new List<PanelBarItem>()
+            {
+            new PanelBarItem()
+            {
+            Text = "Item 1",
+            Items = new List<PanelBarItem>()
+            {
+            new PanelBarItem()
+            {
+            Text = "Item 1.1"
+            },
+            new PanelBarItem()
+            {
+            Text = "Item 1.2",
+            Disabled = true,
+            Items = new List<PanelBarItem>()
+            {
+            new PanelBarItem()
+            {
+            Text = "Item 1.2.1"
+            },
+            new PanelBarItem()
+            {
+            Text = "Item 1.2.2"
+            }
+            }
+            }
+            }
+            },
+            new PanelBarItem()
+            {
+            Text = "Item 2",
+            Items = new List<PanelBarItem>()
+            {
+            new PanelBarItem()
+            {
+            Text = "Item 2.1",
+            Items = new List<PanelBarItem>()
+            {
+            new PanelBarItem()
+            {
+            Text = "Item 2.1.1"
+            }
+            }
+            },
+            new PanelBarItem()
+            {
+            Text = "Item 2.2",
+            Url = "https://google.com"
+            }
+            }
+            },
+            new PanelBarItem()
+            {
+            Text = "Item 3"
+            }
+            };
+
+            return collection;
+        }
+            }
+        </div>
+    </TabStripTab>
+    <TabStripTab Title="En cours">
+        Third tab content.
+    </TabStripTab>
+    <TabStripTab Title="Ordonnances signées">
+        Third tab content.
+    </TabStripTab>
+</TelerikTabStrip>
